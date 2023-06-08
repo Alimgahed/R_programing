@@ -6,17 +6,12 @@ ds$Time <- as.numeric(sub("day", "", ds$Time))
 # get a mean of time to input the missing value 
 mean_time <- mean(df$Time)
 cat("Mean Time:", mean_time, "\n")
-
 rows_to_update <- c(5, 9, 13, 19, 31, 46, 58)
 ds[rows_to_update, "Time"] <- 6.959848
-#make input to the column code.time,less.than.3
+#make inputation to the column code.time,less.than.3
 rows_to_update <- 1:72
 ds[rows_to_update, "Code.Time.less.than.3"] <- ifelse(ds$Time < 3, "less than 3", "more than 3")
 ds
-
-# Remove the Code.Time.less.than.3 column becuse all values is nall
-
-
 # Check the structure of the dataframe
 str(ds)
 
@@ -42,7 +37,6 @@ ggplot(ds) +
        x = "Fleet Start",
        y = "Fleet Finish") +
   theme_minimal()
-
 # Create a histogram of year
 ggplot(ds) +
   geom_histogram(aes(x = Year), binwidth = 1, fill = "lightblue", color = "black") +
@@ -50,7 +44,5 @@ ggplot(ds) +
        x = "Year",
        y = "Frequency") +
   theme_minimal()
-
-
 # Create a histogram of Time
 hist(ds$Time, breaks = 20, xlab = "Time", ylab = "Frequency", main = "Distribution of Recorded Times")
