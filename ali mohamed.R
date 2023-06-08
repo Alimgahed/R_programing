@@ -9,9 +9,13 @@ cat("Mean Time:", mean_time, "\n")
 
 rows_to_update <- c(5, 9, 13, 19, 31, 46, 58)
 ds[rows_to_update, "Time"] <- 6.959848
+#make input to the column code.time,less.than.3
+rows_to_update <- 1:72
+ds[rows_to_update, "Code.Time.less.than.3"] <- ifelse(ds$Time < 3, "less than 3", "more than 3")
+ds
 
 # Remove the Code.Time.less.than.3 column becuse all values is nall
-ds <- subset(ds, select = -Code.Time.less.than.3)
+
 
 # Check the structure of the dataframe
 str(ds)
@@ -21,6 +25,32 @@ min_time <- min(ds$Time)
 max_time <- max(ds$Time)
 cat("Minimum Time:", min_time, "\n")
 cat("Maximum Time:", max_time, "\n")
+library(ggplot2)
+
+# Create the bar chart of code.time.less.than.3
+ggplot(ds, aes(x = Year, fill = Code.Time.less.than.3)) +
+  geom_bar() +
+  labs(x = "Year", y = "Count", fill = "Code Time") +
+  scale_fill_manual(values = c("more than 3" = "black", "less than 3" = "grey")) +
+  theme_minimal()
+library(ggplot2)
+
+# Create scatter plot of fleet start and fleet finish 
+ggplot(ds) +
+  geom_point(aes(x = fleet_start, y = fleet_finish), color = "blue", size = 3) +
+  labs(title = "Start Fleet vs Finish Fleet",
+       x = "Fleet Start",
+       y = "Fleet Finish") +
+  theme_minimal()
+
+# Create a histogram of year
+ggplot(ds) +
+  geom_histogram(aes(x = Year), binwidth = 1, fill = "lightblue", color = "black") +
+  labs(title = "Histogram of Year",
+       x = "Year",
+       y = "Frequency") +
+  theme_minimal()
+
 
 # Create a histogram of Time
 hist(ds$Time, breaks = 20, xlab = "Time", ylab = "Frequency", main = "Distribution of Recorded Times")
